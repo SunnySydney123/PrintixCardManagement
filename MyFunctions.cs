@@ -185,10 +185,35 @@ namespace PrintixCardManagement
                                 // Convert the cardnumber to Base64
                                 string cardNumberBase64 = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(cardNumber));
                                 _logger.LogInformation($"Cardnumber in Base64: {cardNumberBase64}");
+
+                                // Make API call to update the card number for the user
+                                var updateCardRequest = new HttpRequestMessage(HttpMethod.Post,
+                                    $"https://api.printix.net/cloudprint/tenants/{tenantId}/users/{userId}/cards");
+
+                                updateCardRequest.Headers.Add("Authorization", $"Bearer {accessToken}");
+                                updateCardRequest.Content = new StringContent($"{{\r\n  \"secret\" : \"{cardNumberBase64}\"\r\n}}",
+                                    System.Text.Encoding.UTF8, "application/json");
+
+                                HttpResponseMessage updateCardResponse;
+                                try
+                                {
+                                    updateCardResponse = await client.SendAsync(updateCardRequest);
+                                    updateCardResponse.EnsureSuccessStatusCode();
+                                    _logger.LogInformation("Card number updated successfully.");
+                                }
+                                catch (Exception ex)
+                                {
+                                    _logger.LogError($"Failed to update card number: {ex.Message}");
+                                    return new StatusCodeResult(500);
+                                }
+
                             }
                         }
                     }
                 }
+
+
+
 
                 // Return success response with the userId and userEmail
                 return new OkObjectResult(new { userId, userEmail, message = "User details retrieved successfully." });
