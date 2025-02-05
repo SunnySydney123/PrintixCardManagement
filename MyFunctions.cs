@@ -158,7 +158,8 @@ namespace PrintixCardManagement
 
                 _logger.LogInformation($"User email: {userEmail}");
 
-                // Example SQL Connection (replace with your actual connection string and query)
+                // SQl Connection configuration from enviornment variables and SQL Query
+
                 string connectionString = Environment.GetEnvironmentVariable("SqlConnectionString");
                 using (SqlConnection sqlConnection = new SqlConnection(connectionString))
                 {
@@ -176,7 +177,14 @@ namespace PrintixCardManagement
                         {
                             while (await reader.ReadAsync())
                             {
-                                _logger.LogInformation($"User from database: {reader["cardnumber"]}");
+                                // _logger.LogInformation($"User from database: {reader["cardnumber"]}");
+                                // Retrieve the cardnumber from the database
+                                string cardNumber = reader["cardnumber"].ToString();
+                                _logger.LogInformation($"Retrieved cardnumber: {cardNumber}");
+
+                                // Convert the cardnumber to Base64
+                                string cardNumberBase64 = Convert.ToBase64String(System.Text.Encoding.UTF8.GetBytes(cardNumber));
+                                _logger.LogInformation($"Cardnumber in Base64: {cardNumberBase64}");
                             }
                         }
                     }
