@@ -1,12 +1,26 @@
-Azure Function in .NET (csharp). 
-When printix will send a WebHook on a New user Create event, this function will 
-a) get the userID 
-b) Authorize to Printix API 
-c) get users deails like name and email 
-d) connect to Azure SQL instance and lookup email to retrive the users Card Number 
-e) convert card number to base 64 
-f) Update Printix user with the card number in base 64.
+# Azure Function for Printix WebHook Integration (.NET - C#)
 
-The Function is writtten in VS 2022, the Microsoft recommend IDE for Azure Function in .NET
-Add  "Azure Devlopment Workloads" in VS2022.  
-Printix Client ID, Printix Client Secret, and connection string , are saved as Enviornmental variables in Function Configuration.
+Azure Function in **.NET, (C#)**  
+
+When Printix sends a WebHook on a **New User Create** event, this function will:  
+
+1. Get the `userID`  
+2. Authorize to **Printix API**  
+3. Get user details like **name** and **email**  
+4. Connect to **Azure SQL instance** and look up **email** to retrieve the **user's Card Number**  
+5. Convert **card number** to **Base64**  
+6. Update **Printix user** with the **card number** in Base64  
+
+## Development Setup  
+
+- The function is written in **Visual Studio 2022**, the **Microsoft-recommended IDE** for **Azure Functions in .NET**  
+- Add **Azure Development Workloads** in **Visual Studio 2022**  
+
+## Environment Variables  
+
+- **PRINTIX_CLIENT_ID**  
+- **PRINTIX_CLIENT_SECRET**  
+- **CONNECTION_STRING**  
+
+These are saved as **environment variables** in **Azure Function Configuration**  
+
